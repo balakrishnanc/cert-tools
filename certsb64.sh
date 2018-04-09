@@ -77,8 +77,9 @@ function show_certs {
 
         if [ $level -gt 0 ]; then
             pad_right "  " $(expr $level - 1)
+            pad_right '`-•' 1
+        else
             echo -n '•'
-            pad_right "--" 1
         fi
         echo `echo "$cert" | grep 's:' | sed 's/.*s:\(.*\)/\1/'`
 
