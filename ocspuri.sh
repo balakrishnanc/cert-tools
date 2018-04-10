@@ -83,11 +83,11 @@ function show_certs {
 
         pad_right "  " $level
         echo -n "¦- Cert. Hash: "
-        cecho ${BLUE} $(echo "$cert"                                    | \
-                            openssl x509 -pubkey -noout                 | \
-                            openssl rsa -pubin -outform der 2>/dev/null | \
-                            openssl dgst -sha256 -binary                | \
-                            openssl enc -base64)
+        cecho ${BLUE} $(echo "$cert"                                  | \
+                            $OSSL x509 -pubkey -noout                 | \
+                            $OSSL rsa -pubin -outform der 2>/dev/null | \
+                            $OSSL dgst -sha256 -binary                | \
+                            $OSSL enc -base64)
 
         pad_right "  " $level
         echo -n "¦-   OCSP URI: "
