@@ -6,7 +6,7 @@
 # Copyright (c) 2017 Balakrishnan Chandrasekaran <balakrishnan.c@gmail.com>.
 #
 
-# Given a cert. shows the OCSP URI if any for validating the cert.
+# Given a domain name shows the OCSP URI for the cert. used by the domain.
 
 readonly OSSL=`which openssl`
 
