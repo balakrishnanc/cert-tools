@@ -44,11 +44,12 @@ fi
 
 function show_status {
     $OSSL s_client -servername $DOM -host $DOM -port 443 \
-          -status < ${NUL} 2> ${NUL}                               | \
-        sed -n '/OCSP response:/,/---/p'                           | \
-        sed -E "s/(^OCSP response):(.*$)/${YELLOW}\1${NORMAL}:\2/" | \
-        sed -E "s/(.*)(no response sent)/\1${RED}\2${NORMAL}/"     | \
-        sed -E "s/(OCSP Response Status: successful (0x0))/${GREEN}\1${NORMAL}/"
+          -status < ${NUL} 2> ${NUL}                                               | \
+        sed -n '/OCSP response:/,/---/p'                                           | \
+        sed -E "s/(^OCSP response):(.*$)/${YELLOW}\1${NORMAL}:\2/"                 | \
+        sed -E "s/(.*)(no response sent)/\1${RED}\2${NORMAL}/"                     | \
+        sed -E "s/(OCSP Response Status: successful \(0x0\))/${GREEN}\1${NORMAL}/" | \
+        sed -E "s/(Cert Status:.*$)/${BLUE}\1${NORMAL}/"
 }
 
 show_status
