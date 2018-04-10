@@ -63,7 +63,6 @@ function pad_right() {
 
 
 function get_certs {
-    # Domain name.
     local certs=`$OSSL s_client -servername $DOM -host $DOM -port 443 -showcerts < ${NUL} 2> ${NUL} | sed -n '/Certificate chain/,/Server certificate/p'`
     echo "$certs"
 }
