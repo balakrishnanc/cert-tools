@@ -89,7 +89,6 @@ function show_certs {
                             openssl rsa -pubin -outform der 2>/dev/null | \
                             openssl dgst -sha256 -binary                | \
                             openssl enc -base64)
-
         let level=$level+1
     done
 }
