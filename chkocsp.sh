@@ -142,9 +142,14 @@ readonly OCSP_URI="$($OSSL x509 -noout -inform pem -in $SERVER_CERT -ocsp_uri)"
 $OSSL ocsp                                    \
       -issuer $ISSUER_CERT -cert $SERVER_CERT \
       -url $OCSP_URI                          \
-      -verify_other $ISSUER_CERT <$NUL 2>&1             | \
-    sed -E "s/(WARNING:.*$)/${YELLOW}\1${NORMAL}/"      | \
-    sed -E "s/(Response verify.*$)/${CYAN}\1${NORMAL}/" | \
-    sed -E "s/(revoked$)/${RED}\1${NORMAL}/"            | \
-    sed -E "s/(unknown$)/${YELLOW}\1${NORMAL}/"         | \
+      -verify_other $ISSUER_CERT -resp_text <$NUL 2>&1        | \
+    sed -E "s/(WARNING:.*$)/${YELLOW}\1${NORMAL}/"            | \
+    sed -E "s/(Response verify.*$)/${CYAN}\1${NORMAL}/"       | \
+    sed -E "s/(Responder Id:)(.*$)/\1${BLUE}\2${NORMAL}/"     | \
+    sed -E "s/(Produced At:)(.*$)/\1${BLUE}\2${NORMAL}/"      | \
+    sed -E "s/(Issuer Name Hash:)(.*$)/\1${BLUE}\2${NORMAL}/" | \
+    sed -E "s/(Issuer Key Hash:)(.*$)/\1${BLUE}\2${NORMAL}/"  | \
+    sed -E "s/(Serial Number:)(.*$)/\1${BLUE}\2${NORMAL}/"    | \
+    sed -E "s/(revoked$)/${RED}\1${NORMAL}/"                  | \
+    sed -E "s/(unknown$)/${YELLOW}\1${NORMAL}/"               | \
     sed -E "s/(good$)/${GREEN}\1${NORMAL}/"
