@@ -16,13 +16,17 @@ readonly OSSL=`which openssl`
     exit 2
 
 
-if [ $# -ne 1 ]; then
-    echo 'Usage: '$0' <domain-name>' >& 2
+if [ $# -lt 1 ] || [ $# -gt 2 ]; then
+    echo 'Usage: '$0' <domain-name> [<server name/IP>]' >& 2
     exit 1
 fi
 
-DOM=$1
-
+readonly DOM=$1
+if [ $# -eq 2 ]; then
+    readonly SERVER=$2
+else
+    readonly SERVER=$DOM
+fi
 
 readonly NUL='/dev/null'
 
@@ -43,7 +47,7 @@ if test -t 1; then
 fi
 
 function show_status {
-    $OSSL s_client -servername $DOM -host $DOM -port 443 \
+    $OSSL s_client -connect $SERVER:443 -servername $DOM \
           -status < ${NUL} 2> ${NUL}                                               | \
         sed -n '/OCSP response:/,/---/p'                                           | \
         sed -E "s/(^OCSP response):(.*$)/${YELLOW}\1${NORMAL}:\2/"                 | \
